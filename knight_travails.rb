@@ -34,8 +34,6 @@ class Knight
 end
 
 class Node
-  attr_reader :square
-  attr_accessor :possible_moves
   def initialize(square)
     @square = square
     @possible_moves = Array.new
@@ -61,4 +59,7 @@ class Node
 
   protected
   attr_reader :possible_moves_find_array
+
+  public
+  attr_reader :square, :possible_moves
 end

@@ -13,6 +13,7 @@ class Board
         coordinates = []
         coordinates << row
         coordinates << column
+        coordinates = Vertex.new(coordinates)
         squares << coordinates
       end
     end
@@ -33,21 +34,21 @@ class Knight
   attr_accessor :location
 end
 
-class Node
+class Vertex
   def initialize(square)
     @square = square
-    @possible_moves = Array.new
-    @possible_moves_find_array = 
-      [[1, 2], [2, 1], [-1, -2], [-2, -1], [-1, 2], [-2, 1], [2, -1], [1, -2]]
-    possible_moves_finder(@square, @possible_moves_find_array)
+    @possible_moves = possible_moves_finder(@square)
   end
 
-
-  def possible_moves_finder(square, find_array)
+  def possible_moves_finder(square)
+    possible_moves = Array.new
+    find_array = 
+      [[1, 2], [2, 1], [-1, -2], [-2, -1], [-1, 2], [-2, 1], [2, -1], [1, -2]]
     find_array.each do |coordinates|
       possible_move = [(square[0] + coordinates[0]), (square[1] + coordinates[1])]
       possible_moves << possible_move if move_possible?(possible_move)
     end
+    return possible_moves
   end
 
   def move_possible?(array)
@@ -56,9 +57,6 @@ class Node
     end
     return true
   end
-
-  protected
-  attr_reader :possible_moves_find_array
 
   public
   attr_reader :square, :possible_moves

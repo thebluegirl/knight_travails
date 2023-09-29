@@ -32,3 +32,33 @@ class Knight
   protected
   attr_accessor :location
 end
+
+class Node
+  attr_reader :square
+  attr_accessor :possible_moves
+  def initialize(square)
+    @square = square
+    @possible_moves = Array.new
+    @possible_moves_find_array = 
+      [[1, 2], [2, 1], [-1, -2], [-2, -1], [-1, 2], [-2, 1], [2, -1], [1, -2]]
+    possible_moves_finder(@square, @possible_moves_find_array)
+  end
+
+
+  def possible_moves_finder(square, find_array)
+    find_array.each do |coordinates|
+      possible_move = [(square[0] + coordinates[0]), (square[1] + coordinates[1])]
+      possible_moves << possible_move if move_possible?(possible_move)
+    end
+  end
+
+  def move_possible?(array)
+    array.each do |value|
+      return false if value < 0
+    end
+    return true
+  end
+
+  protected
+  attr_reader :possible_moves_find_array
+end

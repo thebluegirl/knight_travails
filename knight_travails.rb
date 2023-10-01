@@ -20,6 +20,20 @@ class Board
     return squares
   end
 
+  def vertex_finder(coordinates)
+    squares.each do |square|
+      return square if square.square == coordinates
+    end
+  end
+
+  def possible_moves_on_board(square)
+    array = []
+    square.possible_moves.each do |possible_move|
+      array << vertex_finder(possible_move)
+    end
+    return array
+  end
+
   protected
   attr_accessor :row, :columns
 end
@@ -40,8 +54,16 @@ class Knight
     end
   end
 
-  def move_count(counter=0)
-    return counter if @location == @destination
+  def move_count(counter=0, tracker=@location)
+    return counter if tracker == @destination
+    counter += 1
+    @location_on_board.possible_moves.each do |possible_move|
+      if possible_move == @destination
+        return counter
+      else
+        
+      end
+    end
   end
 
   protected 

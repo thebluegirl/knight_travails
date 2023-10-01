@@ -25,13 +25,27 @@ class Board
 end
 
 class Knight
-  attr_reader :location
-  def initialize
-    @location = Array.new(2)
+  attr_reader :location, :location_on_board, :destination, :destination_on_board
+  def initialize(location, destination)
+    @board = Board.new
+    @location = location
+    @location_on_board = locate_on_board(location)
+    @destination = destination
+    @destination_on_board = locate_on_board(destination)
   end
 
-  protected
-  attr_accessor :location
+  def locate_on_board(coordinates)
+    @board.squares.each do |square|
+      return square if square.square == coordinates
+    end
+  end
+
+  def move_count(counter=0)
+    return counter if @location == @destination
+  end
+
+  protected 
+  attr_accessor :board
 end
 
 class Vertex

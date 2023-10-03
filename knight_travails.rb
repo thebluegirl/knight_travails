@@ -73,7 +73,7 @@ class Vertex
 
   def move_possible?(array)
     array.each do |value|
-      return false if value < 0
+      return false if value < 0 || value > 7
     end
     return true
   end

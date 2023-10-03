@@ -21,7 +21,7 @@ class Board
   end
 
   def vertex_finder(coordinates)
-    squares.each do |square|
+    @squares.each do |square|
       return square if square.square == coordinates
     end
   end
@@ -43,34 +43,18 @@ class Knight
   def initialize(location, destination)
     @board = Board.new
     @location = location
-    @location_on_board = locate_on_board(location)
     @destination = destination
-    @destination_on_board = locate_on_board(destination)
+    @location_on_board = board.vertex_finder(location)
+    @destination_on_board = board.vertex_finder(destination)
   end
 
-  def locate_on_board(coordinates)
-    @board.squares.each do |square|
-      return square if square.square == coordinates
-    end
-  end
-
-  def move_count(counter=0, tracker=@location)
-    return counter if tracker == @destination
-    counter += 1
-    @location_on_board.possible_moves.each do |possible_move|
-      if possible_move == @destination
-        return counter
-      else
-        
-      end
-    end
-  end
-
+  
   protected 
   attr_accessor :board
 end
 
 class Vertex
+  attr_reader :square, :possible_moves
   def initialize(square)
     @square = square
     @possible_moves = possible_moves_finder(@square)
@@ -93,7 +77,5 @@ class Vertex
     end
     return true
   end
-
-  public
-  attr_reader :square, :possible_moves
 end
+

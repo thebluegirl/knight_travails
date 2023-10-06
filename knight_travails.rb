@@ -48,6 +48,25 @@ class Knight
     @destination_on_board = board.vertex_finder(destination)
   end
 
+  def move_finder
+    counter = 0
+    return counter if @location_on_board == @destination_on_board
+    counter += 1
+    return counter if @location_on_board.possible_moves.include?(@destination)
+    def recurse(queue=@board.possible_moves_on_board(@location_on_board), counter=2)
+      next_queue = []
+      queue.each do |square|
+        return counter if square.possible_moves.include?(@destination)
+        square.possible_moves.each do |possible_move|
+          next_queue << @board.vertex_finder(possible_move)
+        end
+      end
+      counter += 1
+      recurse(next_queue, counter)
+    end
+    recurse
+  end
+
   
   protected 
   attr_accessor :board
@@ -78,4 +97,3 @@ class Vertex
     return true
   end
 end
-

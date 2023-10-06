@@ -1,3 +1,29 @@
+class Vertex
+  attr_reader :square, :possible_moves
+  def initialize(square)
+    @square = square
+    @possible_moves = possible_moves_finder(@square)
+  end
+
+  def possible_moves_finder(square)
+    possible_moves = Array.new
+    find_array = 
+      [[1, 2], [2, 1], [-1, -2], [-2, -1], [-1, 2], [-2, 1], [2, -1], [1, -2]]
+    find_array.each do |coordinates|
+      possible_move = [(square[0] + coordinates[0]), (square[1] + coordinates[1])]
+      possible_moves << possible_move if move_possible?(possible_move)
+    end
+    return possible_moves
+  end
+
+  def move_possible?(array)
+    array.each do |value|
+      return false if value < 0 || value > 7
+    end
+    return true
+  end
+end
+
 class Board
   attr_reader :squares
   def initialize
@@ -39,18 +65,17 @@ class Board
 end
 
 class Knight
-  attr_reader :location, :location_on_board, :destination, :destination_on_board
+  attr_reader :location, :location_on_board, :destination
   def initialize(location, destination)
     @board = Board.new
     @location = location
-    @destination = destination
     @location_on_board = board.vertex_finder(location)
-    @destination_on_board = board.vertex_finder(destination)
+    @destination = destination
   end
 
-  def move_finder
+  def move_counter
     counter = 0
-    return counter if @location_on_board == @destination_on_board
+    return counter if @location == @destination
     counter += 1
     return counter if @location_on_board.possible_moves.include?(@destination)
     def recurse(queue=@board.possible_moves_on_board(@location_on_board), counter=2)
@@ -67,33 +92,12 @@ class Knight
     recurse
   end
 
-  
   protected 
   attr_accessor :board
 end
 
-class Vertex
-  attr_reader :square, :possible_moves
-  def initialize(square)
-    @square = square
-    @possible_moves = possible_moves_finder(@square)
-  end
-
-  def possible_moves_finder(square)
-    possible_moves = Array.new
-    find_array = 
-      [[1, 2], [2, 1], [-1, -2], [-2, -1], [-1, 2], [-2, 1], [2, -1], [1, -2]]
-    find_array.each do |coordinates|
-      possible_move = [(square[0] + coordinates[0]), (square[1] + coordinates[1])]
-      possible_moves << possible_move if move_possible?(possible_move)
-    end
-    return possible_moves
-  end
-
-  def move_possible?(array)
-    array.each do |value|
-      return false if value < 0 || value > 7
-    end
-    return true
-  end
+def knight_moves(location, destination)
+  knight = Knight.new(location, destination)
+  move_count = knight.move_counter
+  puts "You made it in #{move_count} moves!"
 end

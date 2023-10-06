@@ -76,8 +76,7 @@ class Knight
   def move_counter
     counter = 0
     return counter if @location == @destination
-    counter += 1
-    return counter if @location_on_board.possible_moves.include?(@destination)
+    return (counter + 1) if @location_on_board.possible_moves.include?(@destination)
     def recurse(queue=@board.possible_moves_on_board(@location_on_board), counter=2)
       next_queue = []
       queue.each do |square|

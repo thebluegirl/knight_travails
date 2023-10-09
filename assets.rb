@@ -121,9 +121,3 @@ class Knight
   protected 
   attr_accessor :board, :path
 end
-
-def knight_moves(location, destination)
-  knight = Knight.new(location, destination)
-  puts "You made it in #{knight.move_counter} moves!"
-  knight.path_printer
-end
